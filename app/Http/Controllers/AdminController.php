@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        $title = "DASHBOARD";
+        $users=User::all();
+        return view('admin.dashboard', compact('users','title'));
     }
 
     /**
@@ -44,7 +47,7 @@ class AdminController extends Controller
         $users = Auth::user();
 
         if(Auth::attempt($credentials)){//The attempt method will return true if authentication was successful. Otherwise, false will be returned.
-            return redirect('/das')->with(['flag'=>'alert','message'=>'Đăng nhập thành công']);
+            return redirect('/dashboard')->with(['flag'=>'alert','message'=>'Đăng nhập thành công']);
         }
         else{
             return redirect()->back()->with(['flag'=>'danger','message'=>'Đăng nhập không thành công']);
@@ -52,7 +55,7 @@ class AdminController extends Controller
         }
     }
     public function getLoginadmin(){
-        return view('admin.index');
+        return view('admin.login');
     }
 
     public function create()
